@@ -1,14 +1,14 @@
 version: "3.8"
 services:
   client:
-    build: ./docker/ops-image
+    build: ./image
     image: lab/flink-ops-playground:flink-1.12-scala_2.11
     command: "flink run -d /opt/ClickCountJob.jar --bootstrap.servers kafka:9092 --checkpointing --event-time"
     depends_on:
       - jobmanager
       - kafka
     volumes:
-      - ./runtime/ops-conf:/opt/flink/conf
+      - ./conf:/opt/flink/conf
     environment:
       - JOB_MANAGER_RPC_ADDRESS=jobmanager
   clickevent-generator:
@@ -23,7 +23,7 @@ services:
     ports:
       - 8081:8081
     volumes:
-      - ./runtime/ops-conf:/opt/flink/conf
+      - ./conf:/opt/flink/conf
       - /tmp/flink-checkpoints-directory:/tmp/flink-checkpoints-directory
       - /tmp/flink-savepoints-directory:/tmp/flink-savepoints-directory
     environment:
@@ -34,7 +34,7 @@ services:
       - jobmanager
     command: "taskmanager.sh start-foreground"
     volumes:
-      - ./runtime/ops-conf:/opt/flink/conf
+      - ./conf:/opt/flink/conf
       - /tmp/flink-checkpoints-directory:/tmp/flink-checkpoints-directory
       - /tmp/flink-savepoints-directory:/tmp/flink-savepoints-directory
     environment:
