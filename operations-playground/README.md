@@ -26,9 +26,11 @@ Build the Docker image by running
 docker-compose build
 ```
 
-### Preparing Checkpoints&Savepoints paths
 
-Create the checkpoints and savepoints directories on host machine. ('state.checkpoints.dir' and 'state.savepoints.dir' in the flink-conf.yaml)
+### Preparing the Checkpoint and Savepoint Directories
+
+Create the checkpoint and savepoint directories on the Docker host machine (these volumes are mounted by the jobmanager and taskmanager, as specified in docker-compose.yaml):
+
 
 ```bash
 mkdir -p /tmp/flink-checkpoints-directory
